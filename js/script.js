@@ -216,30 +216,91 @@ document.addEventListener('DOMContentLoaded', function() {
     startAutoSlide();
 });
     
-    const filterButtons = document.querySelectorAll('.filter-btn');
+  // Filter functionality
+  const filterButtons = document.querySelectorAll('.filter-btn');
   const serviceCards = document.querySelectorAll('.service-card');
   
   filterButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      // Remove active class from all buttons
-      filterButtons.forEach(btn => btn.classList.remove('active'));
-      
-      // Add active class to clicked button
-      this.classList.add('active');
-      
-      const filterValue = this.getAttribute('data-filter');
-      
-      // Filter cards
-      serviceCards.forEach(card => {
-        if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
+      button.addEventListener('click', function() {
+          // Remove active class from all buttons
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          const filterValue = this.getAttribute('data-filter');
+          
+          // Filter cards with animation
+          serviceCards.forEach(card => {
+              card.style.transition = 'all 0.5s ease';
+              
+              if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                  card.style.display = 'flex';
+                  setTimeout(() => {
+                      card.style.opacity = '1';
+                      card.style.transform = 'scale(1)';
+                  }, 50);
+              } else {
+                  card.style.opacity = '0';
+                  card.style.transform = 'scale(0.9)';
+                  setTimeout(() => {
+                      card.style.display = 'none';
+                  }, 500);
+              }
+          });
       });
-    });
   });
-    
+  
+  // Scroll functionality
+  const slider = document.querySelector('.services-grid');
+  const scrollLeftBtn = document.querySelector('.scroll-btn.left');
+  const scrollRightBtn = document.querySelector('.scroll-btn.right');
+  
+  scrollLeftBtn.addEventListener('click', () => {
+      slider.scrollBy({left: -300, behavior: 'smooth'});
+  });
+  
+  scrollRightBtn.addEventListener('click', () => {
+      slider.scrollBy({left: 300, behavior: 'smooth'});
+  });
+  
+  // Touch swipe for mobile
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  slider.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+  }, {passive: true});
+  
+  slider.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+  }, {passive: true});
+  
+  function handleSwipe() {
+      if (touchEndX < touchStartX - 50) {
+          // Swipe left - scroll right
+          slider.scrollBy({left: 200, behavior: 'smooth'});
+      }
+      if (touchEndX > touchStartX + 50) {
+          // Swipe right - scroll left
+          slider.scrollBy({left: -200, behavior: 'smooth'});
+      }
+  }
+  
+  // Hide scroll buttons when at edges
+  function checkScrollPosition() {
+      const scrollLeft = slider.scrollLeft;
+      const maxScroll = slider.scrollWidth - slider.clientWidth;
+      
+      scrollLeftBtn.style.display = scrollLeft > 10 ? 'flex' : 'none';
+      scrollRightBtn.style.display = scrollLeft < maxScroll - 10 ? 'flex' : 'none';
+  }
+  
+  slider.addEventListener('scroll', checkScrollPosition);
+  window.addEventListener('resize', checkScrollPosition);
+  checkScrollPosition();
+
     // Portfolio Filter
     const filterBtns = document.querySelectorAll('.filter-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
