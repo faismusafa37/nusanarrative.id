@@ -73,14 +73,22 @@
     </section>
 
 
-   <!-- Services Section -->
+<!-- Services Section -->
 <section id="services" class="services-section">
     <div class="container">
-      <h2 class="section-title fade-in">Layanan Kami</h2>
+      <h2 class="section-title">Layanan Kami</h2>
+      
+      <!-- Filter Buttons -->
+      <div class="services-filter">
+        <button class="filter-btn active" data-filter="all">Semua</button>
+        <button class="filter-btn" data-filter="personal">Personal & Sosial</button>
+        <button class="filter-btn" data-filter="corporate">Perusahaan</button>
+        <button class="filter-btn" data-filter="education">Pendidikan</button>
+      </div>
+      
       <div class="services-grid">
-        
         <!-- Acara Personal & Sosial -->
-        <div class="service-card fade-in">
+        <div class="service-card" data-category="personal">
           <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Pernikahan" class="service-img">
           <div class="service-content">
             <h3>Pernikahan (Wedding)</h3>
@@ -88,7 +96,7 @@
           </div>
         </div>
         
-        <div class="service-card fade-in delay-1">
+        <div class="service-card" data-category="personal">
           <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Tunangan" class="service-img">
           <div class="service-content">
             <h3>Tunangan / Lamaran</h3>
@@ -96,7 +104,7 @@
           </div>
         </div>
         
-        <div class="service-card fade-in delay-2">
+        <div class="service-card" data-category="personal">
           <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Ulang Tahun" class="service-img">
           <div class="service-content">
             <h3>Ulang Tahun</h3>
@@ -104,16 +112,16 @@
           </div>
         </div>
         
-        <div class="service-card fade-in">
+        <div class="service-card" data-category="personal">
           <img src="https://images.unsplash.com/photo-1541178735493-479c1a27ed24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Sweet Seventeen" class="service-img">
           <div class="service-content">
             <h3>Sweet Seventeen / Graduation</h3>
             <p>Menyimpan kenangan indah dari Sweet Seventeen dan kelulusan Anda dengan gaya yang stylish.</p>
           </div>
         </div>
-  
+    
         <!-- Acara Komunitas & Perusahaan -->
-        <div class="service-card fade-in delay-1">
+        <div class="service-card" data-category="corporate">
           <img src="https://images.unsplash.com/photo-1521737451536-00a86f630f3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Company Gathering" class="service-img">
           <div class="service-content">
             <h3>Company Gathering / Outing</h3>
@@ -121,7 +129,7 @@
           </div>
         </div>
         
-        <div class="service-card fade-in delay-2">
+        <div class="service-card" data-category="corporate">
           <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Launching Produk" class="service-img">
           <div class="service-content">
             <h3>Launching Produk / Grand Opening</h3>
@@ -129,7 +137,7 @@
           </div>
         </div>
         
-        <div class="service-card fade-in">
+        <div class="service-card" data-category="corporate">
           <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Anniversary Brand" class="service-img">
           <div class="service-content">
             <h3>Anniversary Brand / Bisnis</h3>
@@ -137,7 +145,7 @@
           </div>
         </div>
         
-        <div class="service-card fade-in delay-1">
+        <div class="service-card" data-category="corporate">
           <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80" alt="Job Fair" class="service-img">
           <div class="service-content">
             <h3>Job Fair / Career Expo</h3>
@@ -145,7 +153,7 @@
           </div>
         </div>
         
-        <div class="service-card fade-in delay-2">
+        <div class="service-card" data-category="corporate">
           <img src="images/seminar.jpeg" alt="Seminar Workshop" class="service-img">
           <div class="service-content">
             <h3>Seminar / Workshop</h3>
@@ -153,16 +161,16 @@
           </div>
         </div>
         
-        <div class="service-card fade-in">
+        <div class="service-card" data-category="corporate">
           <img src="images/expo.jpeg" alt="Pameran Expo" class="service-img">
           <div class="service-content">
             <h3>Pameran / Expo</h3>
             <p>Dokumentasi pameran UMKM, fashion, atau kuliner dengan fokus visual yang menarik.</p>
           </div>
         </div>
-  
+    
         <!-- Acara Pendidikan & Kampus -->
-        <div class="service-card fade-in delay-1">
+        <div class="service-card" data-category="education">
           <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Wisuda" class="service-img">
           <div class="service-content">
             <h3>Wisuda / Graduation Day</h3>
@@ -170,7 +178,7 @@
           </div>
         </div>
         
-        <div class="service-card fade-in delay-2">
+        <div class="service-card" data-category="education">
           <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Pameran Kampus" class="service-img">
           <div class="service-content">
             <h3>Pameran Kampus / Open House</h3>
@@ -178,7 +186,7 @@
           </div>
         </div>
         
-        <div class="service-card fade-in">
+        <div class="service-card" data-category="education">
           <img src="images/Ospek Maba.jpeg" alt="Ospek" class="service-img">
           <div class="service-content">
             <h3>Ospek / Welcoming Mahasiswa Baru</h3>
@@ -186,7 +194,7 @@
           </div>
         </div>
         
-        <div class="service-card fade-in delay-1">
+        <div class="service-card" data-category="education">
           <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Prom Night" class="service-img">
           <div class="service-content">
             <h3>Prom Night / Malam Keakraban</h3>
@@ -194,7 +202,7 @@
           </div>
         </div>
         
-        <div class="service-card fade-in delay-2">
+        <div class="service-card" data-category="education">
           <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Event UKM" class="service-img">
           <div class="service-content">
             <h3>Event UKM / Himpunan / BEM</h3>
@@ -313,7 +321,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="team-member fade-in">
+                    <div class="team-member fade-in delay-2">
                         <img src="images/galang.png" alt="Galang Jenar Mahesadewa" class="member-img">
                         <div class="member-info">
                             <h3 class="member-name">Galang Jenar Mahesadewa</h3>

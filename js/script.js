@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -95,205 +96,150 @@ document.addEventListener('DOMContentLoaded', function() {
     //         contactForm.reset();
     //     });
     // }
-
-   // Team Slider
-// Team Slider Function
-function initTeamSlider() {
-    const teamGrid = document.getElementById('teamGrid');
-    const teamMembers = document.querySelectorAll('.team-member');
-    const dotsContainer = document.getElementById('sliderDots');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    
-    if (!teamGrid || !dotsContainer) return; // Exit if elements not found
+    const teamGrid = document.querySelector(".team-grid");
+    const allMembers = Array.from(document.querySelectorAll(".team-member"));
+    const dotsContainer = document.querySelector(".slider-dots");
     
     let currentIndex = 0;
     let autoSlideInterval;
     const slideDuration = 5000; // 5 seconds
+    let visibleItems = getVisibleItems();
     
-    // Clear existing dots
-    dotsContainer.innerHTML = '';
+    function getVisibleItems() {
+        if (window.innerWidth >= 1024) return 3;
+        if (window.innerWidth >= 768) return 2;
+        return 1;
+    }
     
-    // Create dots
-    teamMembers.forEach((_, index) => {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        if (index === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => goToSlide(index));
-        dotsContainer.appendChild(dot);
-    });
+    function initSlider() {
+        // Clear existing slides
+        teamGrid.innerHTML = '';
+        
+        // Create slides based on visibleItems
+        const totalSlides = Math.ceil(allMembers.length / visibleItems);
+        
+        for (let i = 0; i < totalSlides; i++) {
+            const slide = document.createElement('div');
+            slide.className = 'slide';
+            
+            // Add members to this slide
+            const startIdx = i * visibleItems;
+            const endIdx = startIdx + visibleItems;
+            
+            for (let j = startIdx; j < endIdx && j < allMembers.length; j++) {
+                slide.appendChild(allMembers[j]);
+            }
+            
+            teamGrid.appendChild(slide);
+        }
+        
+        updateDots();
+        updateSlide();
+        activateCurrentMembers();
+    }
     
-    const dots = document.querySelectorAll('.dot');
+    function updateDots() {
+        dotsContainer.innerHTML = '';
+        const totalSlides = Math.ceil(allMembers.length / visibleItems);
+        
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            if (i === currentIndex) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+    }
     
-    // Update active slide
-    const updateActiveSlide = (index) => {
-        teamMembers.forEach((member, i) => {
-            member.classList.toggle('active', i === index);
+    function updateSlide() {
+        teamGrid.style.transform = `translateX(-${currentIndex * 100}%)`;
+        activateCurrentMembers();
+    }
+    
+    function activateCurrentMembers() {
+        // Reset all members
+        allMembers.forEach(member => {
+            member.classList.remove('active');
         });
         
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === index);
-        });
-    };
+        // Activate current slide members
+        const startIdx = currentIndex * visibleItems;
+        const endIdx = startIdx + visibleItems;
+        
+        for (let i = startIdx; i < endIdx && i < allMembers.length; i++) {
+            setTimeout(() => {
+                allMembers[i].classList.add('active');
+            }, 100 * (i - startIdx));
+        }
+    }
     
-    // Go to specific slide
-    const goToSlide = (index) => {
-        currentIndex = index;
-        const memberWidth = teamMembers[0].offsetWidth + 30; // width + margin
-        teamGrid.style.transform = `translateX(-${currentIndex * memberWidth}px)`;
-        updateActiveSlide(currentIndex);
+    function goToSlide(index) {
+        const totalSlides = Math.ceil(allMembers.length / visibleItems);
+        currentIndex = (index + totalSlides) % totalSlides;
+        updateSlide();
+        updateDots();
         resetAutoSlide();
-    };
+    }
     
-    // Next slide
-    const nextSlide = () => {
-        currentIndex = (currentIndex + 1) % teamMembers.length;
-        goToSlide(currentIndex);
-    };
+    function nextSlide() {
+        const totalSlides = Math.ceil(allMembers.length / visibleItems);
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlide();
+        updateDots();
+    }
     
-    // Previous slide
-    const prevSlide = () => {
-        currentIndex = (currentIndex - 1 + teamMembers.length) % teamMembers.length;
-        goToSlide(currentIndex);
-    };
-    
-    // Auto slide
-    const startAutoSlide = () => {
+    function startAutoSlide() {
         autoSlideInterval = setInterval(nextSlide, slideDuration);
-    };
+    }
     
-    const resetAutoSlide = () => {
+    function resetAutoSlide() {
         clearInterval(autoSlideInterval);
         startAutoSlide();
-    };
+    }
     
-    // Event listeners
-    nextBtn.addEventListener('click', () => {
-        nextSlide();
-        resetAutoSlide();
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        const newVisibleItems = getVisibleItems();
+        if (newVisibleItems !== visibleItems) {
+            visibleItems = newVisibleItems;
+            currentIndex = 0;
+            initSlider();
+        }
     });
-    
-    prevBtn.addEventListener('click', () => {
-        prevSlide();
-        resetAutoSlide();
-    });
-    
-    // Initialize
-    updateActiveSlide(0);
-    startAutoSlide();
     
     // Pause on hover
-    teamGrid.addEventListener('mouseenter', () => {
-        clearInterval(autoSlideInterval);
-    });
+    teamGrid.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+    teamGrid.addEventListener('mouseleave', startAutoSlide);
     
-    teamGrid.addEventListener('mouseleave', () => {
-        startAutoSlide();
-    });
-
-    const teamSlider = function() {
-        const teamGrid = document.getElementById('teamGrid');
-        const teamMembers = document.querySelectorAll('.team-member');
-        const dotsContainer = document.getElementById('sliderDots');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        
-        if (!teamGrid || !teamMembers.length) return;
-        
-        let currentIndex = 0;
-        let autoSlideInterval;
-        const slideDuration = 5000; // 5 detik
-        
-        // Fungsi untuk membuat dots
-        const createDots = () => {
-            dotsContainer.innerHTML = '';
-            teamMembers.forEach((_, index) => {
-                const dot = document.createElement('div');
-                dot.classList.add('dot');
-                if (index === 0) dot.classList.add('active');
-                dot.addEventListener('click', () => goToSlide(index));
-                dotsContainer.appendChild(dot);
-            });
-        };
-        
-        // Fungsi update slide
-        const updateSlide = () => {
-            const slideWidth = teamMembers[0].offsetWidth;
-            teamGrid.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-            
-            // Update dots
-            document.querySelectorAll('.dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
-            });
-            
-            // Update active class
-            teamMembers.forEach((member, index) => {
-                member.classList.toggle('active', index === currentIndex);
-            });
-        };
-        
-        // Pergi ke slide tertentu
-        const goToSlide = (index) => {
-            currentIndex = index;
-            if (currentIndex >= teamMembers.length) currentIndex = 0;
-            if (currentIndex < 0) currentIndex = teamMembers.length - 1;
-            updateSlide();
-        };
-        
-        // Slide otomatis
-        const startAutoSlide = () => {
-            autoSlideInterval = setInterval(() => {
-                currentIndex++;
-                if (currentIndex >= teamMembers.length) currentIndex = 0;
-                updateSlide();
-            }, slideDuration);
-        };
-        
-        // Reset interval
-        const resetAutoSlide = () => {
-            clearInterval(autoSlideInterval);
-            startAutoSlide();
-        };
-        
-        // Event listeners
-        nextBtn.addEventListener('click', () => {
-            currentIndex++;
-            goToSlide(currentIndex);
-            resetAutoSlide();
-        });
-        
-        prevBtn.addEventListener('click', () => {
-            currentIndex--;
-            goToSlide(currentIndex);
-            resetAutoSlide();
-        });
-        
-        // Inisialisasi
-        createDots();
-        updateSlide();
-        startAutoSlide();
-        
-        // Pause saat hover
-        teamGrid.addEventListener('mouseenter', () => {
-            clearInterval(autoSlideInterval);
-        });
-        
-        teamGrid.addEventListener('mouseleave', () => {
-            startAutoSlide();
-        });
-    };
-    
-    // Panggil fungsi slider
-    teamSlider();
-
-}
-
-    initTeamSlider();
-    
+    // Initialize
+    initSlider();
+    startAutoSlide();
 });
-
-
-
+    
+    const filterButtons = document.querySelectorAll('.filter-btn');
+  const serviceCards = document.querySelectorAll('.service-card');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Remove active class from all buttons
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      
+      // Add active class to clicked button
+      this.classList.add('active');
+      
+      const filterValue = this.getAttribute('data-filter');
+      
+      // Filter cards
+      serviceCards.forEach(card => {
+        if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+    
     // Portfolio Filter
     const filterBtns = document.querySelectorAll('.filter-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
